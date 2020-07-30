@@ -1,6 +1,31 @@
+# readthedocs
+
 I really just created this repository to learn how to setup
 documentation on readthedocs:
 <https://docs.readthedocs.io/en/stable/>.
+
+The Getting Started guide on readthedocs starts with an
+introduction to making documentation with Sphinx:
+
+```bash
+$ mkdir docs
+$ cd docs
+$ sphinx-quickstart # launch cmdline UI for basic config
+$ vim index.rst # edit project info
+```
+
+`index.rst` is reStructuredText, see reST syntax guide here:
+<https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html>
+
+Build the documentation:
+
+```bash
+$ make html
+```
+
+Open `_build/html/index.html` in a web browser.
+
+# avrcycles
 
 The *project* is just one Python script: `avrcycles.py`. This was
 a quick-fix at work: I was analyzing disassembly to compare
