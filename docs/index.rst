@@ -10,31 +10,8 @@ Welcome to avrcycles's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-About
-=====
-
-* create a Python dictionary of AVR instructions
-
-    * :key: instruction pneumonic
-    * :value: number of clock cycles
-    * for instructions with variable numbers of cycles, use the maximum number
-      of cycles
-
-* parse the ``.avra`` file (the disassembly output):
-
-    * for each line of assembly
-    * extract the instruction
-    * append it to a list of instructions
-
-* use the dictionary to look up the number of clock cycles for each instruction
-  in the list
-
-    * for each instruction in the list
-    * look up the number of cycles
-    * append it to a list of cycles
-
-* sum the list of cycles to calculate the total number of cycles consumed by the
-  assembly code listed in the ``.avra`` file
+   about
+   avra
 
 Indices and tables
 ==================

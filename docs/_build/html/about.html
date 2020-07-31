@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Usage &#8212; avrcycles  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="author" title="About these documents" href="#" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="avra" href="avra.html" />
+    <link rel="prev" title="Welcome to avrcycles’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>avrcycles.py temp.avra
+</pre></div>
+</div>
+</div></blockquote>
+<p>Example output:</p>
+<blockquote>
+<div><div class="highlight-md notranslate"><div class="highlight"><pre><span></span>Total number of cycles: 6
+Total number of instructions: 4
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="detailed-usage">
+<h1>Detailed Usage<a class="headerlink" href="#detailed-usage" title="Permalink to this headline">¶</a></h1>
+<ul>
+<li><p>generate disassembly from the <code class="docutils literal notranslate"><span class="pre">.elf</span></code> file</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>avr-objdump -h -S board.elf &gt; board.avra
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-h</span></code>: list space used by each section</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-S</span></code>: output the binary (assembly code) with source code
+(C code)</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>paste the snippet of assembly to analyze into a file</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>example assembly snippet:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Initialize</span> <span class="n">exposure</span> <span class="n">time</span> <span class="n">to</span> <span class="mi">1</span> <span class="n">millisecond</span>
+<span class="n">exposure_ticks</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span> <span class="o">//</span> <span class="mi">50</span> <span class="n">ticks</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0e-3</span> <span class="n">s</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">20.0e-6</span> <span class="n">s</span><span class="o">/</span><span class="n">tick</span><span class="p">)</span>
+<span class="hll"> <span class="mi">1</span><span class="n">c0</span><span class="p">:</span>    <span class="mi">82</span> <span class="n">e3</span>           <span class="n">ldi</span>     <span class="n">r24</span><span class="p">,</span> <span class="mh">0x32</span>       <span class="p">;</span> <span class="mi">50</span>
+</span><span class="hll"> <span class="mi">1</span><span class="n">c2</span><span class="p">:</span>    <span class="mi">90</span> <span class="n">e0</span>           <span class="n">ldi</span>     <span class="n">r25</span><span class="p">,</span> <span class="mh">0x00</span>       <span class="p">;</span> <span class="mi">0</span>
+</span><span class="hll"> <span class="mi">1</span><span class="n">c4</span><span class="p">:</span>    <span class="mi">90</span> <span class="mi">93</span> <span class="mi">1</span><span class="n">d</span> <span class="mi">01</span>     <span class="n">sts</span>     <span class="mh">0x011D</span><span class="p">,</span> <span class="n">r25</span>     <span class="p">;</span> <span class="mh">0x80011d</span> <span class="o">&lt;</span><span class="n">exposure_ticks</span><span class="o">+</span><span class="mh">0x1</span><span class="o">&gt;</span>
+</span><span class="hll"> <span class="mi">1</span><span class="n">c8</span><span class="p">:</span>    <span class="mi">80</span> <span class="mi">93</span> <span class="mi">1</span><span class="n">c</span> <span class="mi">01</span>     <span class="n">sts</span>     <span class="mh">0x011C</span><span class="p">,</span> <span class="n">r24</span>     <span class="p">;</span> <span class="mh">0x80011c</span> <span class="o">&lt;</span><span class="n">exposure_ticks</span><span class="o">&gt;</span>
+</span></pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>I usually call this snippet file <code class="docutils literal notranslate"><span class="pre">temp.avra</span></code> so I
+know it’s safe to delete later</p>
+</div>
+<ul>
+<li><p>in the above example, only the four high-lighted lines of
+code are analyzed</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>the parser in <code class="docutils literal notranslate"><span class="pre">avrcycles.py</span></code> ignores the first two
+lines vebecause they are not assembly</p></li>
+<li><p>non-assembly lines are included in the .avra because of
+the <code class="docutils literal notranslate"><span class="pre">-S</span></code> flag</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>run <code class="docutils literal notranslate"><span class="pre">avrcycles.py</span></code> from the command line (e.g., from bash)</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>avrcycles.py temp.avra
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>example output:</p>
+<blockquote>
+<div><div class="highlight-md notranslate"><div class="highlight"><pre><span></span>Total number of cycles: 6
+Total number of instructions: 4
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="how-it-works">
+<h1>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h1>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">avrcycles.py</span></code> uses a Python dictionary of AVR instructions</p>
+<blockquote>
+<div><ul>
+<li><dl class="field-list simple">
+<dt class="field-odd">key</dt>
+<dd class="field-odd"><p>instruction pneumonic (example: <code class="docutils literal notranslate"><span class="pre">SBI</span></code> – <em>Set Bit
+in I/O Register</em>)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="field-list">
+<dt class="field-odd">value</dt>
+<dd class="field-odd"><p>number of clock cycles (example: <code class="docutils literal notranslate"><span class="pre">2</span></code>)</p>
+<ul>
+<li><p>for instructions with variable numbers of cycles, I use
+the maximum number of cycles listed in the datasheet</p></li>
+<li><p><strong>example</strong>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>instruction <code class="docutils literal notranslate"><span class="pre">SBRC</span></code> (<em>Skip if Bit in Register is
+Set</em>) lists <code class="docutils literal notranslate"><span class="pre">#Clocks</span></code> as <code class="docutils literal notranslate"><span class="pre">1/2/3</span></code></p></li>
+<li><p>so I use <strong>3 cycles</strong> in my dictionary</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>parse the <code class="docutils literal notranslate"><span class="pre">.avra</span></code> file (the disassembly output):</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>for each line of assembly</p></li>
+<li><p>extract the instruction</p></li>
+<li><p>append it to a list of instructions</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>use the dictionary to look up the number of clock cycles for each instruction
+in the list</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>for each instruction in the list</p></li>
+<li><p>look up the number of cycles</p></li>
+<li><p>append it to a list of cycles</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>sum the list of cycles to calculate the total number of cycles consumed by the
+assembly code listed in the <code class="docutils literal notranslate"><span class="pre">.avra</span></code> file</p></li>
+</ul>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">avrcycles</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#detailed-usage">Detailed Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#how-it-works">How it works</a></li>
+<li class="toctree-l1"><a class="reference internal" href="avra.html">avra</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to avrcycles’s documentation!</a></li>
+      <li>Next: <a href="avra.html" title="next chapter">avra</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Mike Gazes.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/about.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

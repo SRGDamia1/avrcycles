@@ -1,21 +1,73 @@
 # readthedocs
 
-I really just created this repository to learn how to setup
-documentation on readthedocs:
-<https://docs.readthedocs.io/en/stable/>.
+I created repository `avrcycles` to learn how to publish
+documentation to *readthedocs*.
+
+*readthedocs* expects documentation made with Sphinx, so it was
+time for me to learn to use
+[Sphinx](https://pypi.org/project/Sphinx/) and
+[readthedocs](https://docs.readthedocs.io/en/stable/). For more
+motivation, see this [Eric Holscher blog
+post](https://www.ericholscher.com/blog/2016/mar/15/dont-use-markdown-for-technical-docs/).
+
+## Setup documentation with Sphinx
 
 The Getting Started guide on readthedocs starts with an
-introduction to making documentation with Sphinx:
+introduction to making documentation with Sphinx.
+
+Install Sphinx:
+
+```bash
+$ pip install sphinx
+```
+
+Pick a project to document. Create a `docs` folder in the top level of the project repository:
 
 ```bash
 $ mkdir docs
+```
+
+Setup documentation with `sphinx-quickstart`:
+
+```bash
 $ cd docs
 $ sphinx-quickstart # launch cmdline UI for basic config
 $ vim index.rst # edit project info
 ```
 
-`index.rst` is reStructuredText, see reST syntax guide here:
-<https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html>
+- `index.rst` is *reStructuredText*
+
+## reST syntax:
+
+- see reST syntax guide here:
+  <https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html>
+
+TLDR for Markdown users learning reST:
+
+### lists
+
+```rst
+* bullet 1
+* bullet 2 continues onto another line
+  by using the correct indentation
+
+    * a sub-item is indented as expected
+      but, unlike Markdown, must be preceded by
+      a blank-line
+    * then the next sub-item continues as expected
+
+* bullet 3 continues as part of the list
+```
+
+### italics, bold, monospace
+
+```rst
+*inline italics*
+**inline bold**
+``inline code``
+```
+
+## View documentation as HTML
 
 Build the documentation:
 
@@ -23,22 +75,52 @@ Build the documentation:
 $ make html
 ```
 
-Open `_build/html/index.html` in a web browser.
+View the documentation by opening `_build/html/index.html` in a
+web browser.
+
+## Use Markdown and reST in the same project
+
+Install package `recommonmark` to use *Markdown* and *reST*
+in the same Sphinx documentation build:
+
+```bash
+$ pip install recommonmark
+```
+
+Add `recommonmark` to the list of `extensions` in `conf.py`:
+
+```python
+extensions = ['recommonmark']
+```
+
+*Markdown* is easier to read but *reST* is more powerful. Use
+*reST* for technical documentation:
+
+<https://www.ericholscher.com/blog/2016/mar/15/dont-use-markdown-for-technical-docs/>
 
 # avrcycles
 
 The *project* is just one Python script: `avrcycles.py`. This was
 a quick-fix at work: I was analyzing disassembly to compare
 execution time with and without interrupts. I got tired of
-looking up how long each instruction was and manually adding the
-cycle times.
+manually looking up the cycles times for each instruction was and
+adding them together.
 
-`avrcycles.py` started out as a dictionary of cycle times for the
-code in question and a parser to pull the instruction from each
-line of code.
+`avrcycles.py` defines a parser function to pull the instruction
+from each line of code in the `.avra` file to analyze. It then
+looks up each instruction in a dictionary and reports the total
+number of cycles consumed by the code in the `.avra` file.
 
-I add to the dictionary as I analyze new assembly code and
-encounter instructions I did not include yet. I still don't have
-*all* the instructions in here, but I've run this script on *a
-lot* of assembly code and have not run into any missing
-instructions yet.
+In practice, I manually identify a block of assembly that
+corresponds to the C code in question, then I paste this block
+into a new `.avra` file and run `avrcycles.py` on that file.
+
+The dictionary of instructions in `avrcycles.py` started out as
+just the handful of the instructions I needed from the
+*Instruction Set Summary* at the end of the ATmega328P datasheet.
+
+Over time, I add to the dictionary as I analyze new assembly code
+and encounter instructions I did not include yet. I still don't
+have *all* the instructions in here, but I've run this script on
+*a lot* of ATmega328P assembly code and have not run into any
+missing instructions yet.
