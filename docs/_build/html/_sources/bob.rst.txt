@@ -1,5 +1,0 @@
-Guide to bob
-============
-
-In practice, I manually identify a block of assembly that
-corresponds to the C code in question, then I paste this block
