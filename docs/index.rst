@@ -6,12 +6,14 @@
 Welcome to avrcycles's documentation!
 =====================================
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+ .. toctree::
+    :maxdepth: 2
+    :caption: Contents:
 
-   about
-   avra
+    usage
+    implementation
+    What is AVRA? <avra>
+    homepage
 
 Indices and tables
 ==================

@@ -98,6 +98,23 @@ extensions = ['recommonmark']
 
 <https://www.ericholscher.com/blog/2016/mar/15/dont-use-markdown-for-technical-docs/>
 
+## Publish to readthedocs
+
+Create an account on readthedocs and link it to your GitHub
+account.
+
+Import the GitHub repository into readthedocs and Build.
+
+Sphinx documentation generated with `sphinx-quickstart` needs
+this line added to the `conf.py` file:
+
+```python
+master_doc = 'index'
+```
+
+This overrides the readthedocs expectation for a file named
+`contents.rst`.
+
 # avrcycles
 
 The *project* is just one Python script: `avrcycles.py`. This was

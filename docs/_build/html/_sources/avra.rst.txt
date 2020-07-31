@@ -1,30 +1,30 @@
-avra
-=====
+AVRA
+====
 
-avra -- assembler for the Atmel AVR microcontrollers
+AVRA -- assembler for the Atmel AVR microcontrollers
 
-    Here is my ``make`` recipe using ``avr-objdump`` to generate
-    a ``.avra`` file from the ``.elf`` file:
+AVRA project homepage: https://github.com/Ro5bert/avra
 
-    .. code-block:: make
+Here is my ``make`` recipe using ``avr-objdump`` to generate a
+``.avra`` file from the ``.elf`` file:
 
-       build/%.avra: build/%.elf
-           avr-objdump -h -S $^ > $@
+.. code-block:: make
 
-    * ``-h``: list space used by each section
-    * ``-S``: output the binary (assembly code) with source code
-      (C code)
+   build/%.avra: build/%.elf
+       avr-objdump -h -S $^ > $@
 
-    .. note::
-       I name this file with extension `.avra` solely to pick up the
-       correct syntax highlighting in Vim. I'm not sure this file is
-       actually any different from the AVRASM32 file as distinguised
-       on the AVRA project homepage.
+* ``-h``: list space used by each section
+* ``-S``: output the binary (assembly code) with source code
+  (C code)
 
-       AVRA project homepage: https://github.com/Ro5bert/avra
+.. note::
+   I name this file with extension `.avra` solely to pick up the
+   correct syntax highlighting in Vim. I'm not sure this file is
+   actually any different from the AVRASM32 file as distinguised
+   on the AVRA project homepage.
 
-       Other assembly file extensions are ``.lst`` and ``.asm``.
-       Again, I'm just using ``.avra`` for the syntax
-       highlighting in my code editor.
+   Other assembly file extensions are ``.lst`` and ``.asm``.
+   Again, I'm just using ``.avra`` for the syntax
+   highlighting in my code editor.
 
 
