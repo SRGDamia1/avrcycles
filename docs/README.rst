@@ -31,4 +31,5 @@ Usage
 Documentation
 *************
 
-See more documentation on [readthedocs](https://avrcycles.readthedocs.io/en/latest/).
+See more documentation on `readthedocs
+<https://avrcycles.readthedocs.io/en/latest/>`_.
