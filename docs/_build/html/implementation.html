@@ -1,166 +1,298 @@
 
-<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta charset="utf-8" />
-    <title>How avrcycles works &#8212; avrcycles  documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>How avrcycles works &mdash; avrcycles  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Project Homepage" href="homepage.html" />
-    <link rel="prev" title="Usage" href="usage.html" />
+    <link rel="next" title="AVRA" href="avra.html" />
+    <link rel="prev" title="Usage" href="usage.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
    
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
-  </head><body>
-  
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
           
 
-          <div class="body" role="main">
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> avrcycles
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html#detailed-usage">Detailed Usage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How avrcycles works</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#use-a-dictionary">Use a dictionary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parse-assembly-code">Parse assembly code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dictionary-look-up">Dictionary look up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#report-total">Report total</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="avra.html">What is AVRA?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="homepage.html">Project homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">avrcycles</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">avrcycles</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>How avrcycles works</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/implementation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="how-avrcycles-works">
 <h1>How avrcycles works<a class="headerlink" href="#how-avrcycles-works" title="Permalink to this headline">¶</a></h1>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">avrcycles.py</span></code> uses a Python dictionary of AVR instructions</p>
+<div class="section" id="use-a-dictionary">
+<h2>Use a dictionary<a class="headerlink" href="#use-a-dictionary" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">avrcycles.py</span></code> uses a Python dictionary of AVR instructions:</p>
 <blockquote>
-<div><ul>
+<div><ul class="simple">
 <li><dl class="field-list simple">
 <dt class="field-odd">key</dt>
-<dd class="field-odd"><p>instruction pneumonic (example: <code class="docutils literal notranslate"><span class="pre">SBI</span></code> – <em>Set Bit
-in I/O Register</em>)</p>
+<dd class="field-odd"><p>instruction pneumonic</p>
 </dd>
 </dl>
 </li>
-<li><dl class="field-list">
+<li><dl class="field-list simple">
 <dt class="field-odd">value</dt>
-<dd class="field-odd"><p>number of clock cycles (example: <code class="docutils literal notranslate"><span class="pre">2</span></code>)</p>
+<dd class="field-odd"><p>number of clock cycles</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p><strong>Example</strong>:</p>
 <ul>
-<li><p>for instructions with variable numbers of cycles, I use
-the maximum number of cycles listed in the datasheet</p></li>
-<li><p><strong>example</strong>:</p>
+<li><p><em>Set Bit in I/O Register</em>:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>instruction <code class="docutils literal notranslate"><span class="pre">SBRC</span></code> (<em>Skip if Bit in Register is
+<li><p><strong>pneumonic</strong>: <code class="docutils literal notranslate"><span class="pre">SBI</span></code></p></li>
+<li><p><strong>clock cycles</strong>: <code class="docutils literal notranslate"><span class="pre">2</span></code></p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cycles</span><span class="p">[</span><span class="s1">&#39;sbi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>For instructions with variable numbers of cycles, I use the
+maximum number of cycles listed in the datasheet.</p>
+<p><strong>Example</strong>:</p>
+<ul class="simple">
+<li><p>instruction <code class="docutils literal notranslate"><span class="pre">SBRS</span></code> (<em>Skip if Bit in Register is
 Set</em>) lists <code class="docutils literal notranslate"><span class="pre">#Clocks</span></code> as <code class="docutils literal notranslate"><span class="pre">1/2/3</span></code></p></li>
 <li><p>so I use <strong>3 cycles</strong> in my dictionary</p></li>
 </ul>
-</div></blockquote>
-</li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
-</div></blockquote>
-</li>
-<li><p>parse the <code class="docutils literal notranslate"><span class="pre">.avra</span></code> file (the disassembly output):</p>
-<blockquote>
-<div><ul class="simple">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cycles</span><span class="p">[</span><span class="s1">&#39;sbrs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="parse-assembly-code">
+<h2>Parse assembly code<a class="headerlink" href="#parse-assembly-code" title="Permalink to this headline">¶</a></h2>
+<p>Parse the <code class="docutils literal notranslate"><span class="pre">.avra</span></code> file (the disassembly output):</p>
+<ul class="simple">
 <li><p>for each line of assembly</p></li>
 <li><p>extract the instruction</p></li>
 <li><p>append it to a list of instructions</p></li>
 </ul>
-</div></blockquote>
-</li>
-<li><p>use the dictionary to look up the number of clock cycles for each instruction
-in the list</p>
-<blockquote>
-<div><ul class="simple">
+</div>
+<div class="section" id="dictionary-look-up">
+<h2>Dictionary look up<a class="headerlink" href="#dictionary-look-up" title="Permalink to this headline">¶</a></h2>
+<p>Use the dictionary to look up the number of clock cycles for each
+instruction in the list:</p>
+<ul class="simple">
 <li><p>for each instruction in the list</p></li>
 <li><p>look up the number of cycles</p></li>
 <li><p>append it to a list of cycles</p></li>
 </ul>
-</div></blockquote>
-</li>
-<li><p>sum the list of cycles to calculate the total number of cycles consumed by the
-assembly code listed in the <code class="docutils literal notranslate"><span class="pre">.avra</span></code> file</p></li>
-</ul>
+</div>
+<div class="section" id="report-total">
+<h2>Report total<a class="headerlink" href="#report-total" title="Permalink to this headline">¶</a></h2>
+<p>Sum the list of cycles to calculate the total number of cycles
+consumed by the assembly code listed in the <code class="docutils literal notranslate"><span class="pre">.avra</span></code> file.</p>
+</div>
 </div>
 
 
+           </div>
+           
           </div>
-          
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">avrcycles</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html#detailed-usage">Detailed Usage</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">How avrcycles works</a></li>
-<li class="toctree-l1"><a class="reference internal" href="homepage.html">Project Homepage</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="usage.html" title="previous chapter">Usage</a></li>
-      <li>Next: <a href="homepage.html" title="next chapter">Project Homepage</a></li>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="avra.html" class="btn btn-neutral float-right" title="AVRA" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="usage.html" class="btn btn-neutral float-left" title="Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
-</div>
-<script>$('#searchbox').show(0);</script>
+  
 
+  <hr/>
 
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Mike Gazes
 
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
-
-
-
+</footer>
 
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2020, Mike Gazes.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
-      
-      |
-      <a href="_sources/implementation.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
 
-    
+    </section>
 
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
     
-  </body>
+   
+
+</body>
 </html>

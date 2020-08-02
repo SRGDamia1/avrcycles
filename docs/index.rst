@@ -13,7 +13,8 @@ Welcome to avrcycles's documentation!
     usage
     implementation
     What is AVRA? <avra>
-    homepage
+    Link to Project homepage <homepage>
+    README on homepage <README>
 
 Indices and tables
 ==================

@@ -91,16 +91,16 @@ cycles['std']=2  # store indirect with displacement
 cycles['ld']=2   # load indirect
 cycles['st']=2   # store indirect
 # Branch instructions
-cycles['sbis'] = 2 # skip if bit in I/O reg is set
+cycles['sbis'] = 3 # skip if bit in I/O reg is set
 # sbis: Datasheet lists #clocks=1/2/3, not sure what that means
-cycles['sbic'] = 2 # skip if bit in I/O reg is cleared
+cycles['sbic'] = 3 # skip if bit in I/O reg is cleared
 # sbic: Datasheet lists #clocks=1/2/3, not sure what that means
-cycles['sbrs'] = 2 # skip if bit in register is set
+cycles['sbrs'] = 3 # skip if bit in register is set
 # sbrs: Datasheet lists #clocks=1/2/3, not sure what that means
 cycles['cpi']=1  # compare register with immediate
 cycles['cpc']=1  # compare with carry
 cycles['cp']=1   # compare
-cycles['cpse']=2 # compare, skip if equal
+cycles['cpse']=3 # compare, skip if equal
 # cpse: Datasheet lists #clocks=1/2/3, not sure what that means
 cycles['brpl']=2 # branch if plus (plus: SREG [N]eg Flag == 0)
 # brpl: Datasheet lists #clocks=1/2, not sure what that means

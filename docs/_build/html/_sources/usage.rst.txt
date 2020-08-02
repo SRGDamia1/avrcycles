@@ -46,9 +46,9 @@ Detailed Usage
     * in the above example, only the four high-lighted lines of
       code are analyzed
 
-        * the parser in ``avrcycles.py`` ignores the first two
-          lines vebecause they are not assembly
-        * non-assembly lines are included in the .avra because of
+        * the parser in ``avrcycles.py`` ignores the first two lines because
+          they are not assembly
+        * non-assembly lines are included in the ``.avra`` because of
           the ``-S`` flag
 
 * run ``avrcycles.py`` from the command line (e.g., from bash)

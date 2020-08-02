@@ -1,32 +1,59 @@
 How avrcycles works
 ===================
 
-* ``avrcycles.py`` uses a Python dictionary of AVR instructions
+Use a dictionary
+****************
 
-    * :key: instruction pneumonic (example: ``SBI`` -- *Set Bit
-            in I/O Register*)
-    * :value: number of clock cycles (example: ``2``)
+``avrcycles.py`` uses a Python dictionary of AVR instructions:
 
-        * for instructions with variable numbers of cycles, I use
-          the maximum number of cycles listed in the datasheet
-        * **example**:
+    * :key: instruction pneumonic
+    * :value: number of clock cycles
 
-            * instruction ``SBRC`` (*Skip if Bit in Register is
-              Set*) lists ``#Clocks`` as ``1/2/3``
-            * so I use **3 cycles** in my dictionary
+**Example**:
 
-* parse the ``.avra`` file (the disassembly output):
+* *Set Bit in I/O Register*:
 
-    * for each line of assembly
-    * extract the instruction
-    * append it to a list of instructions
+    * **pneumonic**: ``SBI``
+    * **clock cycles**: ``2``
 
-* use the dictionary to look up the number of clock cycles for each instruction
-  in the list
+ .. code-block:: python
 
-    * for each instruction in the list
-    * look up the number of cycles
-    * append it to a list of cycles
+    cycles['sbi'] = 2
 
-* sum the list of cycles to calculate the total number of cycles consumed by the
-  assembly code listed in the ``.avra`` file
+For instructions with variable numbers of cycles, I use the
+maximum number of cycles listed in the datasheet.
+
+**Example**:
+
+* instruction ``SBRS`` (*Skip if Bit in Register is
+  Set*) lists ``#Clocks`` as ``1/2/3``
+* so I use **3 cycles** in my dictionary
+
+.. code-block:: python
+
+    cycles['sbrs'] = 3
+
+Parse assembly code
+*******************
+
+Parse the ``.avra`` file (the disassembly output):
+
+* for each line of assembly
+* extract the instruction
+* append it to a list of instructions
+
+Dictionary look up
+******************
+
+Use the dictionary to look up the number of clock cycles for each
+instruction in the list:
+
+* for each instruction in the list
+* look up the number of cycles
+* append it to a list of cycles
+
+Report total
+************
+
+Sum the list of cycles to calculate the total number of cycles
+consumed by the assembly code listed in the ``.avra`` file.
