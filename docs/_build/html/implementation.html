@@ -90,6 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html#detailed-usage">Detailed Usage</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">How avrcycles works</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#instruction-set-dictionary">Instruction Set Dictionary</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#use-a-dictionary">Use a dictionary</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#parse-assembly-code">Parse assembly code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dictionary-look-up">Dictionary look up</a></li>
@@ -97,8 +98,8 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="avra.html">What is AVRA?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="homepage.html">Project homepage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="README.html">avrcycles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="homepage.html">Link to Project homepage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README.html">README on homepage</a></li>
 </ul>
 
             
@@ -166,6 +167,20 @@
             
   <div class="section" id="how-avrcycles-works">
 <h1>How avrcycles works<a class="headerlink" href="#how-avrcycles-works" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">avrcycles.py</span></code> was a quick-fix at work: I was analyzing
+disassembly to compare execution time with and without
+interrupts. I got tired of manually looking up the cycles times
+for each instruction and adding them together.</p>
+<div class="section" id="instruction-set-dictionary">
+<h2>Instruction Set Dictionary<a class="headerlink" href="#instruction-set-dictionary" title="Permalink to this headline">¶</a></h2>
+<p>I couldn’t find the instructions summary in plain text or csv
+form on the internet, so I manually copied the dictionary of
+instructions in <code class="docutils literal notranslate"><span class="pre">avrcycles.py</span></code> from the <em>Instruction Set
+Summary</em> at the end of the ATmega328P datasheet PDF. I didn’t
+copy all the instructions, just the ones I needed. I only add to
+the list when I get an error that the dictionary is missing an
+instruction used in the <code class="docutils literal notranslate"><span class="pre">.avra</span></code> file.</p>
+</div>
 <div class="section" id="use-a-dictionary">
 <h2>Use a dictionary<a class="headerlink" href="#use-a-dictionary" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">avrcycles.py</span></code> uses a Python dictionary of AVR instructions:</p>

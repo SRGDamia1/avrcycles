@@ -36,7 +36,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Project Homepage" href="homepage.html" /> 
+    <link rel="prev" title="Link to Project Homepage" href="homepage.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -90,10 +90,10 @@
 <li class="toctree-l1"><a class="reference internal" href="usage.html#detailed-usage">Detailed Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="implementation.html">How avrcycles works</a></li>
 <li class="toctree-l1"><a class="reference internal" href="avra.html">What is AVRA?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="homepage.html">Project homepage</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">avrcycles</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="homepage.html">Link to Project homepage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">README on homepage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#instruction-set-dictionary">Instruction Set Dictionary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
 </ul>
 </li>
 </ul>
@@ -164,10 +164,6 @@
   <div class="section" id="avrcycles">
 <h1>avrcycles<a class="headerlink" href="#avrcycles" title="Permalink to this headline">¶</a></h1>
 <p>The <em>project</em> is just one Python script: <code class="docutils literal notranslate"><span class="pre">avrcycles.py</span></code>.</p>
-<p><code class="docutils literal notranslate"><span class="pre">avrcycles.py</span></code> was a quick-fix at work: I was analyzing
-disassembly to compare execution time with and without
-interrupts. I got tired of manually looking up the cycles times
-for each instruction and adding them together.</p>
 <p><code class="docutils literal notranslate"><span class="pre">avrcycles.py</span></code> reports how many clock cycles are consumed:</p>
 <ul class="simple">
 <li><p>pull the assembly instruction pneumonic from each line of code
@@ -185,20 +181,14 @@ question</p></li>
 <li><p>paste this block into a new <code class="docutils literal notranslate"><span class="pre">.avra</span></code> file</p></li>
 <li><p>run <code class="docutils literal notranslate"><span class="pre">avrcycles.py</span></code> on that file</p></li>
 </ul>
-<p>Example:</p>
+<p><strong>Example</strong>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">avrcycles</span><span class="o">.</span><span class="n">py</span> <span class="n">temp</span><span class="o">.</span><span class="n">avra</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="instruction-set-dictionary">
-<h2>Instruction Set Dictionary<a class="headerlink" href="#instruction-set-dictionary" title="Permalink to this headline">¶</a></h2>
-<p>I couldn’t find the instructions summary in plain text or csv
-form on the internet, so I manually copied the dictionary of
-instructions in <code class="docutils literal notranslate"><span class="pre">avrcycles.py</span></code> from the <em>Instruction Set
-Summary</em> at the end of the ATmega328P datasheet PDF. I didn’t
-copy all the instructions, just the ones I needed. I only add to
-the list when I get an error that the dictionary is missing an
-instruction used in the <code class="docutils literal notranslate"><span class="pre">.avra</span></code> file.</p>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<p>See more documentation on [readthedocs](<a class="reference external" href="https://avrcycles.readthedocs.io/en/latest/">https://avrcycles.readthedocs.io/en/latest/</a>).</p>
 </div>
 </div>
 
@@ -211,7 +201,7 @@ instruction used in the <code class="docutils literal notranslate"><span class="
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="homepage.html" class="btn btn-neutral float-left" title="Project Homepage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="homepage.html" class="btn btn-neutral float-left" title="Link to Project Homepage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
