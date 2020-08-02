@@ -88,7 +88,6 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html#detailed-usage">Detailed Usage</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">How avrcycles works</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#instruction-set-dictionary">Instruction Set Dictionary</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#use-a-dictionary">Use a dictionary</a></li>
@@ -184,33 +183,17 @@ instruction used in the <code class="docutils literal notranslate"><span class="
 <div class="section" id="use-a-dictionary">
 <h2>Use a dictionary<a class="headerlink" href="#use-a-dictionary" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">avrcycles.py</span></code> uses a Python dictionary of AVR instructions:</p>
-<blockquote>
-<div><ul class="simple">
-<li><dl class="field-list simple">
-<dt class="field-odd">key</dt>
-<dd class="field-odd"><p>instruction pneumonic</p>
-</dd>
-</dl>
-</li>
-<li><dl class="field-list simple">
-<dt class="field-odd">value</dt>
-<dd class="field-odd"><p>number of clock cycles</p>
-</dd>
-</dl>
-</li>
+<ul class="simple">
+<li><p><strong>key</strong>: instruction pneumonic</p></li>
+<li><p><strong>value</strong>: number of clock cycles</p></li>
 </ul>
-</div></blockquote>
 <p><strong>Example</strong>:</p>
-<ul>
-<li><p><em>Set Bit in I/O Register</em>:</p>
-<blockquote>
-<div><ul class="simple">
+<p>Instruction <em>Set Bit in I/O Register</em> has:</p>
+<ul class="simple">
 <li><p><strong>pneumonic</strong>: <code class="docutils literal notranslate"><span class="pre">SBI</span></code></p></li>
 <li><p><strong>clock cycles</strong>: <code class="docutils literal notranslate"><span class="pre">2</span></code></p></li>
 </ul>
-</div></blockquote>
-</li>
-</ul>
+<p>Therefore the dictionary entry is:</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cycles</span><span class="p">[</span><span class="s1">&#39;sbi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
 </pre></div>
@@ -230,7 +213,7 @@ Set</em>) lists <code class="docutils literal notranslate"><span class="pre">#Cl
 </div>
 <div class="section" id="parse-assembly-code">
 <h2>Parse assembly code<a class="headerlink" href="#parse-assembly-code" title="Permalink to this headline">¶</a></h2>
-<p>Parse the <code class="docutils literal notranslate"><span class="pre">.avra</span></code> file (the disassembly output):</p>
+<p>Parse the <code class="docutils literal notranslate"><span class="pre">.avra</span></code> file:</p>
 <ul class="simple">
 <li><p>for each line of assembly</p></li>
 <li><p>extract the instruction</p></li>

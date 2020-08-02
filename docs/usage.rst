@@ -13,7 +13,7 @@ Example output:
     Total number of instructions: 4
 
 Detailed Usage
-==============
+**************
 
 * generate disassembly from the ``.elf`` file
 

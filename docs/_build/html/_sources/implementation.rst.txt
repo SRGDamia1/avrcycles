@@ -22,15 +22,17 @@ Use a dictionary
 
 ``avrcycles.py`` uses a Python dictionary of AVR instructions:
 
-    * :key: instruction pneumonic
-    * :value: number of clock cycles
+* **key**: instruction pneumonic
+* **value**: number of clock cycles
 
 **Example**:
 
-* *Set Bit in I/O Register*:
+Instruction *Set Bit in I/O Register* has:
 
-    * **pneumonic**: ``SBI``
-    * **clock cycles**: ``2``
+* **pneumonic**: ``SBI``
+* **clock cycles**: ``2``
+
+Therefore the dictionary entry is:
 
  .. code-block:: python
 
@@ -52,7 +54,7 @@ maximum number of cycles listed in the datasheet.
 Parse assembly code
 *******************
 
-Parse the ``.avra`` file (the disassembly output):
+Parse the ``.avra`` file:
 
 * for each line of assembly
 * extract the instruction
