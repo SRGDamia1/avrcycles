@@ -7,7 +7,7 @@ The *project* is just one Python script: ``avrcycles.py``.
 
 ``avrcycles.py`` reports how many clock cycles are consumed:
 
-* pull the assembly instruction pneumonic from each line of code
+* pull the assembly instruction mnemonic from each line of code
   in the ``.avra`` file to analyze
 * look up each instruction in a dictionary to find the number of
   cycles consumed by that instruction

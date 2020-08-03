@@ -22,14 +22,14 @@ Use a dictionary
 
 ``avrcycles.py`` uses a Python dictionary of AVR instructions:
 
-* **key**: instruction pneumonic
+* **key**: instruction mnemonic
 * **value**: number of clock cycles
 
 **Example**:
 
 Instruction *Set Bit in I/O Register* has:
 
-* **pneumonic**: ``SBI``
+* **mnemonic**: ``SBI``
 * **clock cycles**: ``2``
 
 Therefore the dictionary entry is:
