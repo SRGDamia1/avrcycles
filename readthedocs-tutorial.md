@@ -251,3 +251,146 @@ table-of-contents.
 In addition to manually writing `.rst` files, Sphinx
 auto-generates module documentation with `sphinx-apidoc`.
 
+<https://www.sphinx-doc.org/en/master/man/sphinx-apidoc.html>
+
+As explained in
+<https://www.pythonforthelab.com/blog/documenting-with-sphinx-and-readthedocs/>,
+in the section titled "Read The Docs", sphinx-autodoc usually requires creating a virtual environment on *Read the Docs*.
+
+For Sphinx to autodoc a module, it must be able to import the
+module. If the module depends on a package that is not installed
+by default with Python, the import fails.
+
+For example, the Sphinx build fails if the module it is
+documenting imports `numpy` and `numpy` is not installed. The
+Sphinx build runs fine on my local machine because `numpy` is
+installed. But on the *Read the Docs* server, the automated build
+uses a fresh install of Python.
+
+Generate a `requirements.txt` file. First activate the virtual
+environment for the project:
+
+```bash
+$ . ~/py38/bin/activate
+(py38) $
+```
+
+Now output a `requirements.txt` file in the `doc` folder:
+
+```bash
+(py38) $ cd $project_dir
+(py38) $ pip freeze > doc/requirements.txt
+```
+
+Tell *Read the Docs* to use a virtual environment and install the
+packages in `requirements.txt`:
+
+- click the `Admin` button
+- click `Advanced Settings`
+- scroll down to `Requirements file`
+    - enter the path to the requirements file
+    - typical path: `doc/requirements.txt`
+- scoll down to `Install Project`
+    - check the box to "Install your project inside a virtualenv
+      using `setup.py install`"
+
+### Useful references
+
+#### Triple double-quote docstrings
+
+Use triple double-quotes for docstrings. See
+<https://www.python.org/dev/peps/pep-0257/>
+
+### Type hints
+
+Use type hints for parameters and attributes.
+
+Example:
+
+```
+Parameters
+----------
+cycles : int
+  Number of cycles to wait.
+```
+
+See <https://www.python.org/dev/peps/pep-0484/>
+
+#### Links to code object in documentation
+
+Link to the part of the documentation where the particular code
+object (module, class, function, etc.) is defined:
+
+```
+:py:mod:
+:py:func:
+:py:class:
+```
+
+See
+<https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#cross-referencing-python-objects>
+
+#### reST basics
+
+```
+# with overline, for parts
+* with overline, for chapters
+=, for sections
+-, for subsections
+^, for subsubsections
+", for paragraphs
+```
+
+See <https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html>
+
+See
+<https://rest-sphinx-memo.readthedocs.io/en/latest/ReST.html>
+
+#### Directives
+
+```
+.. toctree:
+
+.. code-block:
+
+.. code-block: python
+   :caption: filename.py
+   :name: file-name (for use with :ref:)
+
+.. seealso:
+
+.. note:
+
+.. warning:
+```
+
+See directives:
+<https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html>
+
+See refs (links):
+<https://www.sphinx-doc.org/en/master/usage/restructuredtext/roles.html#role-ref>
+
+#### NumPy Style Docstrings
+
+Use NumPy docstrings. This style is much friendlier to people
+using pydoc. The pure reST style is a mess to read as raw text.
+
+Use the napolean extension to use NumPy style.
+
+See <https://www.sphinx-doc.org/en/master/usage/extensions/example_numpy.html>
+
+See <https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_numpy.html>
+
+# Guides for writing documentation
+
+https://documentation.divio.com/structure/
+
+## Examples of nice documentation
+
+https://docs.divio.com/en/latest/
+
+https://docs.djangoproject.com/en/3.0/#how-the-documentation-is-organized
+
+http://docs.django-cms.org/en/latest/
+
+https://divio-covid-report.readthedocs-hosted.com/en/latest/

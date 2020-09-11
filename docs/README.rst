@@ -33,3 +33,11 @@ Documentation
 
 See more documentation on `readthedocs
 <https://avrcycles.readthedocs.io/en/latest/>`_.
+
+Sphinx tutorial
+***************
+
+I created this project to learn to use *Sphinx* and *Read the Docs*. I
+recorded my notes as a tutorial in ``readthedocs-tutorial.md``.
+
+
