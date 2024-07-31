@@ -16,6 +16,10 @@ Description:
     See also: avrasm.py
 
 Usage:
+    FIRST:
+    - build your firmware with debugging information included.
+        - build with the flags -Og -g2 -ggdb2
+        - using PlatformIO, you can do this with the command pio run -t sizedata
     Output a .avra with avr-objdump.
     Example:
     For older AVR toolkits, with avr-objdump
