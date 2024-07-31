@@ -54,65 +54,151 @@ from pathlib import Path
 # takes. Some instructions take more cycles under
 # some condition. Return the maximum number of
 # cycles in this case.
-cycles={}
-# Bit and bit-test instructions
-cycles['sbi']=2
-cycles['cbi']=2
-cycles['cli']=1
-cycles['sei']=1
-# Arithmetic and logic instructions
-cycles['com']=1 # one's complement
-cycles['dec']=1 # decrement
-cycles['and']=1
-cycles['andi']=1
-cycles['or']=1
-cycles['add']=1
-cycles['adc']=1
-cycles['adiw']=2 # add immediate to word
-cycles['sub']=1  # subtract two registers
-cycles['subi']=1 # subtract constant from register
-cycles['sbci']=1 # subtract with carry constant from register
-cycles['sbiw']=2 # subtract immediate from word
-cycles['eor']=1
-cycles['ori']=1
-# Data transfer instructions
-cycles['in']=1 # in port
-cycles['out']=1 # out port
-cycles['ldi']=1
-cycles['push']=2
-cycles['pop']=2
-cycles['mov']=1  # move between registers
-cycles['movw']=1 # copy register word
-cycles['lpm']=3  # load program memory
-cycles['lds']=2  # load direct from SRAM
-cycles['sts']=2  # store direct to SRAM
-cycles['ldd']=2  # load indirect with displacement
-cycles['std']=2  # store indirect with displacement
-cycles['ld']=2   # load indirect
-cycles['st']=2   # store indirect
-# Branch instructions
-cycles['sbis'] = 3 # skip if bit in I/O reg is set
-# sbis: Datasheet lists #clocks=1/2/3, not sure what that means
-cycles['sbic'] = 3 # skip if bit in I/O reg is cleared
-# sbic: Datasheet lists #clocks=1/2/3, not sure what that means
-cycles['sbrs'] = 3 # skip if bit in register is set
-# sbrs: Datasheet lists #clocks=1/2/3, not sure what that means
-cycles['cpi']=1  # compare register with immediate
-cycles['cpc']=1  # compare with carry
-cycles['cp']=1   # compare
-cycles['cpse']=3 # compare, skip if equal
-# cpse: Datasheet lists #clocks=1/2/3, not sure what that means
-cycles['brpl']=2 # branch if plus (plus: SREG [N]eg Flag == 0)
-# brpl: Datasheet lists #clocks=1/2, not sure what that means
-cycles['rjmp']=2
-cycles['jmp']=3
-cycles['brne']=2
-cycles['breq']=2
-cycles['brcs']=2 # branch if carry set
-cycles['brcc']=2 # branch if carry cleared
-cycles['call']=4 # direct subroutine call
-cycles['ret']=4
-cycles['reti']=4
+cycles = {
+    "adc": 1,
+    "add": 1,
+    "adiw": 2,
+    "and": 1,
+    "andi": 1,
+    "asr": 1,
+    "bclr": 1,
+    "bld": 1,
+    "brbc": 2,
+    "brbs": 2,
+    "brcc": 2,
+    "brcs": 2,
+    "break": 1,
+    "breq": 2,
+    "brge": 2,
+    "brhc": 2,
+    "brhs": 2,
+    "brid": 2,
+    "brie": 2,
+    "brlo": 2,
+    "brlt": 2,
+    "brmi": 2,
+    "brne": 2,
+    "brpl": 2,
+    "brsh": 2,
+    "brtc": 2,
+    "brts": 2,
+    "brvc": 2,
+    "brvs": 2,
+    "bset": 2,
+    "bst": 2,
+    "call": 5,
+    "cbi": 2,
+    "cbr": 3,
+    "clc": 3,
+    "clh": 1,
+    "cli": 1,
+    "cln": 6,
+    "clr": 6,
+    "cls": 2,
+    "clt": 1,
+    "clv": 1,
+    "clz": 1,
+    "com": 2,
+    "cp": 2,
+    "cpc": 2,
+    "cpi": 2,
+    "cpse": 3,
+    "dec": 2,
+    "des": 2,
+    "eicall": 4,
+    "eijmp": 2,
+    "elpm": 3,
+    "elpm": 3,
+    "elpm": 3,
+    "eor": 1,
+    "fmul": 2,
+    "fmuls": 2,
+    "fmulsu": 2,
+    "icall": 4,
+    "ijmp": 2,
+    "in": 1,
+    "inc": 1,
+    "jmp": 3,
+    "lac": 2,
+    "las": 2,
+    "lat": 2,
+    "ld": 2,
+    "ld": 2,
+    "ld": 2,
+    "ld": 2,
+    "ld": 2,
+    "ld": 3,
+    "ld": 3,
+    "ld": 2,
+    "ld": 3,
+    "ldd": 3,
+    "ldd": 3,
+    "ldi": 2,
+    "lds": 3,
+    "lpm": 3,
+    "lpm": 3,
+    "lpm": 3,
+    "lsl": 1,
+    "lsr": 1,
+    "mov": 2,
+    "movw": 1,
+    "mul": 2,
+    "muls": 2,
+    "mulsu": 2,
+    "neg": 1,
+    "nop": 1,
+    "or": 1,
+    "ori": 1,
+    "out": 1,
+    "pop": 2,
+    "push": 2,
+    "rcall": 4,
+    "ret": 5,
+    "reti": 5,
+    "rjmp": 2,
+    "rol": 1,
+    "ror": 1,
+    "sbc": 1,
+    "sbci": 1,
+    "sbi": 3,
+    "sbic": 4,
+    "sbis": 4,
+    "sbiw": 2,
+    "sbr": 1,
+    "sbrc": 3,
+    "sbrs": 3,
+    "sec": 1,
+    "seh": 1,
+    "sei": 1,
+    "sen": 1,
+    "ser": 1,
+    "ses": 1,
+    "set": 1,
+    "sev": 1,
+    "sez": 1,
+    "sleep": 1,
+    "spm": 4,
+    "spm": 4,
+    "st": 2,
+    "st": 2,
+    "st": 2,
+    "st": 2,
+    "st": 2,
+    "st": 2,
+    "st": 2,
+    "st": 2,
+    "st": 2,
+    "std": 2,
+    "std": 2,
+    "sts": 2,
+    "sub": 1,
+    "subi": 1,
+    "swap": 1,
+    "tst": 1,
+    "wdr": 1,
+    "xch": 2,
+}
+
 
 def print_every_line(fobj):
     """Print every line in the file.
