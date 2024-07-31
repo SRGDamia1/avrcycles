@@ -206,37 +206,12 @@ cycles = {
 }
 
 
-def print_every_line(fobj):
-    """Print every line in the file.
-    Report number of lines.
-    """
-    lines = [line for line in fobj]
-    [print(line, end="") for line in lines]
-    print(f"Total lines in file: {len(lines)}")
-
-
-def _is_not_blank(line):
-    """Return true if `line` is not blank."""
-    return len(line.split()) > 0
-
-
 def _is_blank(line):
     """Return true if `line` is blank."""
     return len(line.split()) == 0
 
 
-def print_every_line_except_blanks(fobj):
-    """Print every line in the file, but skip
-    blank lines.
-    Report number of lines.
-    """
-    # lines=[line.split() for line in fobj if len(line.split())>0]
-    lines = [line.split() for line in fobj if _is_not_blank(line)]
-    [print(line) for line in lines]
-    print("Total number of lines in file, skipping blank lines: " f"{len(lines)}")
-
-
-def _is_asm(line):
+def _is_asm(line, debug=False):
     """Return true if input `line` is a line of
     AVR assembly code.
     Identify AVR assembly lines by the first word.
@@ -247,59 +222,32 @@ def _is_asm(line):
     Example:
         ' 1b6:	ff cf 	rjmp	.-2  	;'
     """
+    if debug:
+        print(line)
     # Discard blank lines
-    # print(line)
     if _is_blank(line):
-        # print("BLANK!!")
+        if debug:
+            print("BLANK!!")
         return False
     # Make sure we have at least 3 words separated by tabs
-    n_words = len(line.split("\t"))
-    len_each_word = [len(word) > 0 for word in line.split("\t")]
-    all_non_blank = all(len(word) > 0 for word in line.split("\t"))
-    line_has_at_least_3_words = n_words > 2 and all_non_blank
-    # print(f"Tab sep words: {n_words}, {len_each_word}, {all_non_blank}!!")
-    if not line_has_at_least_3_words:
-        # print(f"Not three words: {n_words}, {len_each_word}, {all_non_blank}!!")
+    n_words = len([word for word in line.split("\t") if len(word) > 0])
+    if n_words < 3:
+        if debug:
+            print(f"Line doesn't have 3 non-blank words: {n_words}!!")
         return False
     # Check first word
     word1 = line.split("\t")[0].strip()
     word1_last_char = word1[-1]
-    # print(f"Word1: '{word1}', last char: '{word1_last_char}'")
-    # if word1[0:-1].isalnum() and word1_last_char == ":" and line_has_at_least_3_words:
-    #     print("Yup, that's assembly!")
-    return (
-        word1[0:-1].isalnum() and word1_last_char == ":" and line_has_at_least_3_words
-    )
-
-
-def print_only_asm_lines(fobj):
-    """Print only assembly lines of code from the
-    file.
-    Report number of lines.
-    """
-    lines = [line for line in fobj if _is_asm(line)]
-    [print(line.split("\t")) for line in lines]
-    print(f"Total number of assembly lines in file: {len(lines)}")
-
-
-def _instruction(asm_line):
-    """Return the instruction found in input
-    `asm_line`, a line of AVR Assembly code.
-    Example:
-        ' 1b6:	ff cf 	rjmp	.-2  	;'
-    Returns the string: "rjmp"
-    """
-    # Lines are tab-separated.
-    # Instruction is always the 3rd word.
-    return asm_line.split("\t")[2].strip()
+    if debug:
+        print(f"Word1: '{word1}', last char: '{word1_last_char}'")
+    if word1[0:-1].isalnum() and word1_last_char == ":":
+        if debug:
+            print("Yup, that's assembly")
+        return True
 
 
 def parse_instruction(asm_line):
-    """Return the instruction found in input
-    `asm_line`, a line of AVR Assembly code.
-    Example:
-        ' 1b6:	ff cf 	rjmp	.-2  	;'
-    """
+    """Return  a dictionary of parsed assembly instructions"""
 
     # Lines are tab-separated.
     parsed_instr = {"address": asm_line.split("\t")[0].strip()}
@@ -316,11 +264,11 @@ def parse_instruction(asm_line):
         else:
             parsed_instr["call_stack"] = asm_line.split("\t")[3].strip()
 
-    # Instruction is always the 3rd word.
     return parsed_instr
 
 
-def parse_fxns(fobj):
+def parse_fxns(fobj, debug=False):
+    """Parse all symbols and dump a json"""
     parsed_fxns = {}
 
     total_fxn_cycles = 0
@@ -341,7 +289,8 @@ def parse_fxns(fobj):
                     "has_sub_calls": len(fxn_sub_calls) > 0,
                     "parsed_fxn_name": parsed_fxn_name,
                 }
-                print(f"{parsed_fxn}")
+                if debug:
+                    print(f"{parsed_fxn}")
                 parsed_fxns[parsed_fxn["start_address"]] = copy.deepcopy(parsed_fxn)
 
             # start the new symbol
@@ -352,16 +301,17 @@ def parse_fxns(fobj):
             got_start_address = True
             total_fxn_cycles = 0
             fxn_sub_calls = []
-            print(f"Detected symbol start at {parsed_fxn_start}")
+            if debug:
+                print(f"Detected symbol start at {parsed_fxn_start}")
 
-        if _is_asm(line):
+        if _is_asm(line, False):
             parsed_instr = parse_instruction(line)
             total_fxn_cycles += parsed_instr["raw_cycles"]
             max_address = parsed_instr["address"][:-1]
             if "call_stack" in parsed_instr.keys():
                 fxn_sub_calls.append(parsed_instr["call_stack"])
 
-    # print(parsed_fxns)
+    # iterate back through to get the full stack size of the list
     for fxn_start, parsed_fxn in parsed_fxns.items():
         parsed_fxns[fxn_start]["total_cycles"] = get_fxn_stack_size(
             parsed_fxns, fxn_start
@@ -371,50 +321,23 @@ def parse_fxns(fobj):
     return parsed_fxns
 
 
-def get_fxn_stack_size(parsed_fxns, fxn_start_address):
+def get_fxn_stack_size(parsed_fxns, fxn_start_address, debug=False):
+    """Recursively calculate the full number of clock cycles used by a function/symbol."""
     this_fxn = parsed_fxns[fxn_start_address]
     if this_fxn["has_sub_calls"] == False:
-        print(
-            f"Function starting at {fxn_start_address} is a simple function with {this_fxn['raw_cycles']} cycles"
-        )
+        if debug:
+            print(
+                f"Function starting at {fxn_start_address} is a simple function with {this_fxn['raw_cycles']} cycles"
+            )
         return this_fxn["raw_cycles"]
-    print(
-        f"Function starting at {fxn_start_address} has sub-calls to {this_fxn['sub_calls']}"
-    )
+    if debug:
+        print(
+            f"Function starting at {fxn_start_address} has sub-calls to {this_fxn['sub_calls']}"
+        )
     return this_fxn["raw_cycles"] + sum(
         get_fxn_stack_size(parsed_fxns, sub_address)
         for sub_address in this_fxn["sub_calls"]
     )
-
-
-def list_of_instructions_in_file(fobj):
-    """Return a list of assembly instructions parsed from
-    the input `fobj` file object. Duplicates are included.
-    The length of the final list equals the number of lines
-    of assembly code in the file.
-    Find a line of assembly.
-    Extract the instruction.
-    Append it to the list.
-    """
-    # Get all the assembly lines
-    lines = [line for line in fobj if _is_asm(line)]
-    print(f"Total number of assembly lines in file: {len(lines)}")
-
-    # return the list of instructions
-    return [_instruction(line) for line in lines]
-
-
-def print_instruction_from_every_line(fobj):
-    """Print the instructions from an AVR Assembly
-    file. Ignore lines that are not AVR Assembly.
-    """
-    # Get all the assembly lines
-    # lines=[line for line in fobj if _is_asm(line)]
-    # Pull out the instructions
-    # instructions=[_instruction(line) for line in lines]
-    instructions = list_of_instructions_in_file(fobj)
-    [print(inst, end=", ") for inst in instructions]
-    print("\nTotal number of assembly instructions: " f"{len(instructions)}")
 
 
 def Parse_avra(filepath):
@@ -422,22 +345,14 @@ def Parse_avra(filepath):
     # Open file
     p = Path(filepath)
     with p.open() as f:
-        # print_every_line(f)
-        # print_every_line_except_blanks(f)
-        # print_only_asm_lines(f)
-        # print_instruction_from_every_line(f)
-        # # Find each AVR instruction
-        # instructions = list_of_instructions_in_file(f)
-        # # Look up the number of cycles for that instruction
-        # cycles_list = [
-        #     cycles[instr] for instr in instructions if instr in cycles.keys()
-        # ]
-        # # # Total the number of cycles.
-        # print(f"Total number of cycles: {sum(cycles_list)}")
-        # print(f"Total number of instructions: {len(instructions)}")
-        parsed_fxns = parse_fxns(f)
-        print(f"Total number of instructions:")
+        parsed_fxns = parse_fxns(f, debug=False)
         print(f"Total number of symbols: {len(parsed_fxns.keys())}")
+        main_function = [
+            k for k in parsed_fxns.keys() if parsed_fxns[k]["parsed_fxn_name"] == "main"
+        ][0]
+        print(
+            f"Total number of cycles used by 'main' function: {parsed_fxns[main_function]['total_cycles']}"
+        )
 
 
 if __name__ == "__main__":
